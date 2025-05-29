@@ -1,0 +1,22 @@
+# Ortam klasörleri
+myenv/
+venv/
+
+# Derlenmiş Python dosyaları
+__pycache__/
+*.py[cod]
+
+# Model, veri, config dosyaları
+*.pkl
+*.csv
+*.json
+
+# Büyük binary dosyalar (önlem)
+*.dll
+*.so
+*.exe
+*.log
+
+# IDE dosyaları
+.vscode/
+.idea/
