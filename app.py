@@ -181,13 +181,13 @@ def parse_swagger_anamnez(form):
 
 def ensemble_raporu(skor):
     if skor < 0.3:
-        return "Düşük Risk", "Risk düşüktür. Cilt değişikliklerini izlemeye devam edin."
+        return "Low Risk", "Risk is low. Continue monitoring skin changes."
     elif skor < 0.6:
-        return "Orta Risk", "Risk orta seviyededir. Uzman görüşü alınmalıdır."
+        return "Moderate Risk", "Moderate risk detected. Consult a specialist."
     elif skor < 0.8:
-        return "Yüksek Risk", "Yüksek risk tespit edildi. Dermatologa başvurun."
+        return "High Risk", "High risk detected. Please consult a dermatologist."
     else:
-        return "Çok Yüksek Risk", "Ciddi risk mevcut. Acilen tıbbi değerlendirme yapılmalıdır."
+        return "Very High Risk", "Severe risk present. Seek urgent medical evaluation."
 
 @app.route('/predict/skin', methods=['POST'])
 def predict_skin():
@@ -202,7 +202,6 @@ def predict_skin():
     file.save(file_path)
 
     try:
-        # ✅ Anamnez verisini hem JSON hem Swagger form-data şeklinde destekle
         anamnez_json = request.form.get("anamnez_data")
         if anamnez_json:
             anamnez_data = json.loads(anamnez_json)
@@ -215,7 +214,7 @@ def predict_skin():
         anamnez_skor = float(ANAMNEZ_MODEL_SKIN.predict_proba(anamnez_df)[0][1])
 
         ensemble_skor = round(0.7 * gorsel_skor + 0.3 * anamnez_skor, 2)
-        sonuc = "Malignant (Kötü Huylu)" if ensemble_skor >= 0.5 else "Benign (İyi Huylu)"
+        sonuc = "Malignant" if ensemble_skor >= 0.5 else "Benign"
         risk_seviye, yorum = ensemble_raporu(ensemble_skor)
 
         os.remove(file_path)
