@@ -25,7 +25,7 @@ print("📊 Classification Report:")
 print(classification_report(y_test, y_pred, target_names=label_encoder.classes_))
 
 model.save_model("anamnez_model.json")
-print("✅ Model başarıyla kaydedildi → anamnez_model.json")
+print(" Model başarıyla kaydedildi → anamnez_model.json")
 
 import pickle
 with open("label_encoder.pkl", "wb") as f:
